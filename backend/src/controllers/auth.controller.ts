@@ -3,10 +3,11 @@ import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
 import User from '../models/User'
 
+const isProd = process.env.NODE_ENV === 'production'
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict' as const,
+  secure: isProd,
+  sameSite: (isProd ? 'none' : 'strict') as 'none' | 'strict',
   maxAge: 7 * 24 * 60 * 60 * 1000,
 }
 
@@ -95,8 +96,8 @@ export async function getMe(req: Request, res: Response): Promise<void> {
 export async function logout(_req: Request, res: Response): Promise<void> {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'strict',
   })
   res.json({ message: 'Logged out successfully' })
 }

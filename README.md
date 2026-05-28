@@ -25,7 +25,7 @@ A full-stack Task Management web application built with **React + Redux Toolkit*
 - Cannot delete your own account (guarded at both UI and API level)
 
 ### Security
-- JWT stored in httpOnly, Secure, SameSite=strict cookie — immune to XSS
+- JWT stored in httpOnly, Secure cookie — immune to XSS; `SameSite=none` in production for cross-origin support, `SameSite=strict` in development
 - Every API request verified by `protect` middleware
 - Role-based route guard (`requireRole('admin')`) on all admin endpoints
 - 401 responses handled by Redux middleware — no full-page reload, clean redirect via React Router

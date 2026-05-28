@@ -237,10 +237,36 @@ npm start         # Run compiled dist/server.js
 
 ---
 
+## Deployment
+
+| Service | Platform |
+|---|---|
+| Frontend | [Vercel](https://vercel.com) |
+| Backend | [Render](https://render.com) |
+| Database | [MongoDB Atlas](https://mongodb.com/atlas) |
+
+### Backend — Render
+
+1. New Web Service → connect GitHub repo
+2. Root Directory: `backend`
+3. Build Command: `npm install && npm run build`
+4. Start Command: `npm start`
+5. Add environment variables: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `NODE_ENV=production`, `CORS_ORIGIN=https://your-app.vercel.app`
+
+### Frontend — Vercel
+
+1. New Project → import repo (root directory: `/`)
+2. Add environment variable: `VITE_API_URL=https://your-backend.onrender.com/api`
+3. Deploy → update `CORS_ORIGIN` on Render with the Vercel URL
+
+### Note on Render free tier
+
+Render's free tier spins down the backend after **15 minutes of inactivity**. The first request after the server sleeps will take **20–30 seconds** to respond while it wakes up. Subsequent requests are fast. This is expected behaviour on the free plan.
+
+---
+
 ## Assumptions
 
-1. MongoDB is running locally on the default port. For production, replace `MONGODB_URI` with your Atlas connection string.
-2. User `role` defaults to `'user'` on registration. Admin accounts are promoted manually via MongoDB.
-3. Drag-and-drop reordering uses fire-and-forget API sync — order is eventually consistent across sessions.
-4. Tasks are scoped per user — users can only see and manage their own tasks.
-5. In production, frontend and backend should be deployed separately with `CORS_ORIGIN` set to the deployed frontend URL.
+1. User `role` defaults to `'user'` on registration. Admin accounts are promoted manually via MongoDB (no admin registration UI).
+2. Drag-and-drop reordering uses fire-and-forget API sync — order is eventually consistent across sessions.
+3. In production, frontend and backend should be deployed separately with `CORS_ORIGIN` set to the deployed frontend URL.

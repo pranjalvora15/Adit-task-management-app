@@ -100,8 +100,8 @@ npm run dev
 
 ### 4. Admin account Credentials
 
-Email: admin@gmail.com
-password: 123456
+- Email: admin@gmail.com
+- password: 123456
 
 ---
 
